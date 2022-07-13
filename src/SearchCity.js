@@ -8,48 +8,52 @@ class SearchCity extends React.Component {
         super(props);
 
         this.state = {
-            lat: null,
-            lon: null,
             temp: null,
             dataIsLoaded: false,
+            cityname: '',
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-        let city_name = document.getElementById("cityname").value;
-
-        // Call API with city name
-        let data = fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=5&appid=${API_KEY}&units=imperial`)
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    temp: json.main.temp,
-                    dataIsLoaded: true,
-                });
-            })
-            .catch(err => console.error(err));
-          
+    // API Call
+    async searchCity(city_name) {
+        console.log("City Name: " + city_name);
+        
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_KEY}&units=imperial`);
+        const data = await response.json();
+        
+        this.setState({
+            temp: data.main.temp,
+            dataIsLoaded: true,
+        });
+        
         console.log(data);
+    }
+
+    handleChange(event) {
+        this.setState({cityname: event.target.value});
+    }
+
+    handleSubmit(event) {
+        console.log(this.state.cityname);
+        this.searchCity(this.state.cityname);
+        event.preventDefault();
     }
 
     render() {
         return (
-            <form id="searchCityForm">
-                <label for="cityname">Enter City Name:</label><br></br>
-                <input type="text" name="cityname" id="cityname" placeholder="Enter City Name"></input>
-                <input type="submit" name="submit" value="Submit" onClick={searchCity}></input>
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Enter City Name:
+                    <br />
+                    <input type="text" value={this.state.cityname} onChange={this.handleChange} />
+                </label>
+                <input type="submit" value="Submit" />
             </form>
         );
     }
-}
-
-function searchCity() {
-    document.querySelector("searchCityForm").addEventListener("keyup", function() {
-        var data;
-        var input = document.querySelectorAll('input');
-        data = input.value;
-        console.log(data);
-    });
 }
 
 export default SearchCity;

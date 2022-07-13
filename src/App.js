@@ -7,13 +7,11 @@ class App extends React.Component {
   // Used for HTML + JSX
   render() {
     return (
-      <>
-        <div className='App'>
-          <h1>Weather Data</h1>
-          <GetWeatherData />
-          {/* <SearchCity /> */}
-        </div>
-      </>
+      <div className='App'>
+        <h1>Weather Data</h1>
+        <SearchCity />
+        <GetWeatherData />
+      </div>
     );
   }
 }

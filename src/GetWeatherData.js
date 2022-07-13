@@ -10,6 +10,7 @@ class GetWeatherData extends React.Component {
         this.state = {
             lat: null,
             lon: null,
+            currcity: null,
             temp: null,
             dataIsLoaded: false,
         };
@@ -24,6 +25,8 @@ class GetWeatherData extends React.Component {
             .then((value) => {
                 let lat = value.coords.latitude;
                 let lon = value.coords.longitude;
+
+                // Get weather based off lat and lon.
                 fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
@@ -35,6 +38,16 @@ class GetWeatherData extends React.Component {
                         });
                     })
                     .catch(err => console.error(err));
+
+                // Get current city name based off lat and lon.
+                fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
+                    .then(res => res.json())
+                    .then(json => {
+                        this.setState({currcity: json.name});
+                    })
+                    .catch(err => console.error(err));
+
+                console.log(this.state.currcity);
             })
             .catch(err => console.error(err));
     }
@@ -48,6 +61,7 @@ class GetWeatherData extends React.Component {
             return(
                 <div>
                     <p>Current Location: {this.state.lat}, {this.state.lon}</p>
+                    <p>Current City: {this.state.currcity}</p>
                     <p>Current Temperature: {this.state.temp}</p>
                 </div>
             );
