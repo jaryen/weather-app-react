@@ -7,13 +7,13 @@ class GetWeatherData extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        /* this.state = {
             lat: null,
             lon: null,
             currcity: null,
             temp: null,
             dataIsLoaded: false,
-        };
+        }; */
     }
 
     componentDidMount() {
@@ -43,26 +43,24 @@ class GetWeatherData extends React.Component {
                 fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
                     .then(res => res.json())
                     .then(json => {
-                        this.setState({currcity: json.name});
+                        this.setState({currcity: json[0].name});
                     })
                     .catch(err => console.error(err));
-
-                console.log(this.state.currcity);
             })
             .catch(err => console.error(err));
     }
 
     render() {
-        if (!this.state.dataIsLoaded) {
+        if (!this.props.dataIsLoaded) {
             return (
                 <p>Please wait...</p>
             )
         } else {
             return(
                 <div>
-                    <p>Current Location: {this.state.lat}, {this.state.lon}</p>
-                    <p>Current City: {this.state.currcity}</p>
-                    <p>Current Temperature: {this.state.temp}</p>
+                    <p>Current Coordinates: {this.props.lat}, {this.props.lon}</p>
+                    <p>Current City: {this.props.cityname}</p>
+                    <p>Current Temperature: {this.props.temp}</p>
                 </div>
             );
         }

@@ -7,11 +7,11 @@ class SearchCity extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        /* this.state = {
             temp: null,
             dataIsLoaded: false,
             cityname: '',
-        };
+        }; */
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,21 +24,24 @@ class SearchCity extends React.Component {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_KEY}&units=imperial`);
         const data = await response.json();
         
-        this.setState({
+        /* this.setState({
             temp: data.main.temp,
             dataIsLoaded: true,
-        });
+        }); */
+
+        
         
         console.log(data);
     }
 
     handleChange(event) {
-        this.setState({cityname: event.target.value});
+        // this.setState({cityname: event.target.value});
+        this.props.onCityChange(event.target.value);
     }
 
     handleSubmit(event) {
-        console.log(this.state.cityname);
-        this.searchCity(this.state.cityname);
+        console.log(this.props.cityname);
+        this.searchCity(this.props.cityname);
         event.preventDefault();
     }
 
@@ -48,7 +51,7 @@ class SearchCity extends React.Component {
                 <label>
                     Enter City Name:
                     <br />
-                    <input type="text" value={this.state.cityname} onChange={this.handleChange} />
+                    <input type="text" value={this.props.cityname} onChange={this.handleChange} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
