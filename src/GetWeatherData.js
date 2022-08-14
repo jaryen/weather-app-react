@@ -35,7 +35,6 @@ class GetWeatherData extends React.Component {
                 fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
                     .then(res => res.json())
                     .then(json => {
-                        // this.setState({currcity: json[0].name});
                         this.props.onCityChange(json[0].name);
                     })
                     .catch(err => console.error(err));

@@ -17,18 +17,19 @@ class SearchCity extends React.Component {
         
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_KEY}&units=imperial`);
         const data = await response.json();
-        
-        console.log(data);
 
         // Send this data to GetWeatherData
+        this.props.onCitySubmit(city_name);
+        this.props.onLatLonChange(data.coord.lat, data.coord.lon);
+        this.props.onTempChange(data.main.temp);
     }
 
     handleChange(event) {
-        this.props.onCityChange(event.target.value);
+        this.props.onCitySearchChange(event.target.value);
     }
 
     handleSubmit(event) {
-        this.searchCity(this.props.cityname);
+        this.searchCity(this.props.citysearch);
         event.preventDefault();
     }
 
@@ -38,7 +39,7 @@ class SearchCity extends React.Component {
                 <label>
                     Enter City Name:
                     <br />
-                    <input type="text" value={this.props.cityname} onChange={this.handleChange} />
+                    <input type="text" value={this.props.citysearch} onChange={this.handleChange} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>

@@ -12,19 +12,27 @@ class WeatherInfo extends React.Component {
         this.state = {
             lat: null,
             lon: null,
+            citysearch: null,
             currcity: null,
             temp: null,
             dataIsLoaded: false,
         };
 
+        this.handleCitySearchChange = this.handleCitySearchChange.bind(this);
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handleLatLonChange = this.handleLatLonChange.bind(this);
         this.handleTempChange = this.handleTempChange.bind(this);
         this.handleDataLoadedChange = this.handleDataLoadedChange.bind(this);
     }
 
-    // Sets the city name in the parent class
-    // to the city name typed in SearchCity
+    // Saves the current city name typed in SearchCity
+    // to the parent class.
+    handleCitySearchChange(searchname) {
+        this.setState({citysearch: searchname});
+    }
+
+    // Handles setting the current city name
+    // to parent city name.
     handleCityChange(cityname) {
         this.setState({currcity: cityname});
     }
@@ -50,8 +58,10 @@ class WeatherInfo extends React.Component {
         return (
             <div>
                 <SearchCity
-                    cityname={this.state.currcity} 
-                    onCityChange={this.handleCityChange}
+                    citysearch={this.state.citysearch} 
+                    onCitySearchChange={this.handleCitySearchChange}
+                    onCitySubmit={this.handleCityChange}
+                    onLatLonChange={this.handleLatLonChange}
                     onTempChange={this.handleTempChange} />
                 <GetWeatherData 
                     lat={this.state.lat}
