@@ -19,6 +19,8 @@ class SearchCity extends React.Component {
         const data = await response.json();
         
         console.log(data);
+
+        // Send this data to GetWeatherData
     }
 
     handleChange(event) {

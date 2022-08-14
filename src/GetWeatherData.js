@@ -26,11 +26,8 @@ class GetWeatherData extends React.Component {
                 fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
-                        /* this.setState({
-                            temp: json.main.temp,
-                        }); */
                         this.handleTempChange(json.main.temp);
-                        // this.props.handleDataLoadedChange();
+                        this.props.onDataLoaded();
                     })
                     .catch(err => console.error(err));
 
@@ -39,6 +36,7 @@ class GetWeatherData extends React.Component {
                     .then(res => res.json())
                     .then(json => {
                         // this.setState({currcity: json[0].name});
+                        this.props.onCityChange(json[0].name);
                     })
                     .catch(err => console.error(err));
             })
@@ -62,7 +60,7 @@ class GetWeatherData extends React.Component {
             return(
                 <div>
                     <p>Current Coordinates: {this.props.lat}, {this.props.lon}</p>
-                    <p>Current City: {this.props.cityname}</p>
+                    <p>Current City Name: {this.props.cityname}</p>
                     <p>Current Temperature: {this.props.temp}</p>
                 </div>
             );

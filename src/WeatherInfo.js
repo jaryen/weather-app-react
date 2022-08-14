@@ -60,6 +60,7 @@ class WeatherInfo extends React.Component {
                     temp={this.state.temp}
                     dataIsLoaded={this.state.dataIsLoaded}
                     onDataLoaded={this.handleDataLoadedChange}
+                    onCityChange={this.handleCityChange}
                     onLatLonChange={this.handleLatLonChange}
                     onTempChange={this.handleTempChange} />
             </div>
