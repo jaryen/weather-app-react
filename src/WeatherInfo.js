@@ -18,15 +18,32 @@ class WeatherInfo extends React.Component {
         };
 
         this.handleCityChange = this.handleCityChange.bind(this);
+        this.handleLatLonChange = this.handleLatLonChange.bind(this);
         this.handleTempChange = this.handleTempChange.bind(this);
+        this.handleDataLoadedChange = this.handleDataLoadedChange.bind(this);
     }
 
+    // Sets the city name in the parent class
+    // to the city name typed in SearchCity
     handleCityChange(cityname) {
         this.setState({currcity: cityname});
     }
 
+    handleLatLonChange(lat, lon) {
+        this.setState({
+            lat: lat,
+            lon: lon,
+        });
+    }
+
     handleTempChange(temp) {
         this.setState({temp: temp});
+    }
+
+    // Handles when weather data is loaded
+    // and changes dataIsLoaded to true.
+    handleDataLoadedChange() {
+        this.setState({dataIsLoaded: true});
     }
 
     render() {
@@ -41,10 +58,12 @@ class WeatherInfo extends React.Component {
                     lon={this.state.lon}
                     cityname={this.state.currcity}
                     temp={this.state.temp}
-                    dataIsLoaded={this.state.dataIsLoaded} />
+                    dataIsLoaded={this.state.dataIsLoaded}
+                    onDataLoaded={this.handleDataLoadedChange}
+                    onLatLonChange={this.handleLatLonChange}
+                    onTempChange={this.handleTempChange} />
             </div>
         );
-        
     }   
 }
 

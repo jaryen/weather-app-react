@@ -7,13 +7,8 @@ class GetWeatherData extends React.Component {
     constructor(props) {
         super(props);
 
-        /* this.state = {
-            lat: null,
-            lon: null,
-            currcity: null,
-            temp: null,
-            dataIsLoaded: false,
-        }; */
+        this.handleLatLonChange = this.handleLatLonChange.bind(this);
+        this.handleTempChange = this.handleTempChange.bind(this);
     }
 
     componentDidMount() {
@@ -25,17 +20,17 @@ class GetWeatherData extends React.Component {
             .then((value) => {
                 let lat = value.coords.latitude;
                 let lon = value.coords.longitude;
+                this.handleLatLonChange(lat, lon);
 
                 // Get weather based off lat and lon.
                 fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
-                        this.setState({
-                            lat: lat,
-                            lon: lon,
+                        /* this.setState({
                             temp: json.main.temp,
-                            dataIsLoaded: true,
-                        });
+                        }); */
+                        this.handleTempChange(json.main.temp);
+                        // this.props.handleDataLoadedChange();
                     })
                     .catch(err => console.error(err));
 
@@ -43,11 +38,19 @@ class GetWeatherData extends React.Component {
                 fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
                     .then(res => res.json())
                     .then(json => {
-                        this.setState({currcity: json[0].name});
+                        // this.setState({currcity: json[0].name});
                     })
                     .catch(err => console.error(err));
             })
             .catch(err => console.error(err));
+    }
+
+    handleLatLonChange(lat, lon) {
+        this.props.onLatLonChange(lat, lon);
+    }
+
+    handleTempChange(temp) {
+        this.props.onTempChange(temp);
     }
 
     render() {
