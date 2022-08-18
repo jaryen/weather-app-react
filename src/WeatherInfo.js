@@ -12,7 +12,7 @@ class WeatherInfo extends React.Component {
         this.state = {
             lat: null,
             lon: null,
-            citysearch: null,
+            citysearch: '',
             currcity: null,
             temp: null,
             dataIsLoaded: false,

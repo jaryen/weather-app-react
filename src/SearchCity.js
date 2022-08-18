@@ -1,4 +1,8 @@
 import React from "react";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input';
+import Container from '@mui/material/Container';
 
 // Open Weather API Key
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
@@ -36,12 +40,18 @@ class SearchCity extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    Enter City Name:
-                    <br />
-                    <input type="text" value={this.props.citysearch} onChange={this.handleChange} />
-                </label>
-                <input type="submit" value="Submit" />
+                <Box 
+                sx={{
+                    m: 5,
+                    ml: 15,
+                    mr: 15,
+                    p: 4,
+                    borderRadius: 2, 
+                    bgcolor: 'rgba(167, 192, 205, 0.5)',
+                }}>
+                    <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" />
+                    <input type="submit" value="Submit" />                    
+                </Box>
             </form>
         );
     }
