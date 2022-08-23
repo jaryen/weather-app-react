@@ -1,8 +1,8 @@
 import React from "react";
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input';
-import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
 
 // Open Weather API Key
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
@@ -41,16 +41,17 @@ class SearchCity extends React.Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <Box 
-                sx={{
-                    m: 5,
-                    ml: 15,
-                    mr: 15,
-                    p: 4,
-                    borderRadius: 2, 
-                    bgcolor: 'rgba(167, 192, 205, 0.5)',
-                }}>
-                    <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" />
-                    <input type="submit" value="Submit" />                    
+                    sx={{
+                        m: 10,
+                        p: 5,
+                        borderRadius: 2, 
+                        bgcolor: 'rgba(167, 192, 205, 0.5)',
+                    }}
+                >
+                    <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" />
+                    <br/>
+                    <br/>
+                    <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button>
                 </Box>
             </form>
         );
