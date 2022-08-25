@@ -1,5 +1,4 @@
 import React from "react";
-import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
@@ -40,19 +39,10 @@ class SearchCity extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <Box 
-                    sx={{
-                        m: 10,
-                        p: 5,
-                        borderRadius: 2, 
-                        bgcolor: 'rgba(167, 192, 205, 0.5)',
-                    }}
-                >
-                    <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" />
-                    <br/>
-                    <br/>
-                    <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button>
-                </Box>
+                <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" />
+                <br/>
+                <br/>
+                <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button>
             </form>
         );
     }

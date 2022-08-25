@@ -1,9 +1,11 @@
 import React from "react";
 import GetWeatherData from './GetWeatherData';
 import SearchCity from './SearchCity';
+import GetTempData from './GetTempData';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
-// Open Weather API Key
-const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 class WeatherInfo extends React.Component {
     constructor(props) {
@@ -56,23 +58,49 @@ class WeatherInfo extends React.Component {
 
     render() {
         return (
-            <div>
-                <SearchCity
-                    citysearch={this.state.citysearch} 
-                    onCitySearchChange={this.handleCitySearchChange}
-                    onCitySubmit={this.handleCityChange}
-                    onLatLonChange={this.handleLatLonChange}
-                    onTempChange={this.handleTempChange} />
-                <GetWeatherData 
-                    lat={this.state.lat}
-                    lon={this.state.lon}
-                    cityname={this.state.currcity}
-                    temp={this.state.temp}
-                    dataIsLoaded={this.state.dataIsLoaded}
-                    onDataLoaded={this.handleDataLoadedChange}
-                    onCityChange={this.handleCityChange}
-                    onLatLonChange={this.handleLatLonChange}
-                    onTempChange={this.handleTempChange} />
+            <div id="weatherInfoDiv">
+                <Box 
+                    sx={{
+                        mb: 2,
+                        p: 5,
+                        borderRadius: 2, 
+                        bgcolor: 'rgba(167, 192, 205, 0.5)',
+                    }}
+                >
+                    <SearchCity
+                        citysearch={this.state.citysearch} 
+                        onCitySearchChange={this.handleCitySearchChange}
+                        onCitySubmit={this.handleCityChange}
+                        onLatLonChange={this.handleLatLonChange}
+                        onTempChange={this.handleTempChange} 
+                    />
+                    <GetWeatherData 
+                        lat={this.state.lat}
+                        lon={this.state.lon}
+                        cityname={this.state.currcity}
+                        temp={this.state.temp}
+                        dataIsLoaded={this.state.dataIsLoaded}
+                        onDataLoaded={this.handleDataLoadedChange}
+                        onCityChange={this.handleCityChange}
+                        onLatLonChange={this.handleLatLonChange}
+                        onTempChange={this.handleTempChange} 
+                    />
+                </Box>
+                <Card
+                    sx={{
+                        width: 1/5
+                    }}>
+                    <CardContent>
+                        <GetTempData 
+                            lat={this.state.lat}
+                            lon={this.state.lon}
+                            temp={this.state.temp}
+                            dataIsLoaded={this.state.dataIsLoaded}
+                            onDataLoaded={this.handleDataLoadedChange}
+                            onTempChange={this.handleTempChange} 
+                        />
+                    </CardContent>
+                </Card>
             </div>
         );
     }   

@@ -3,11 +3,11 @@ import React from "react";
 // Open Weather API Key
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
-class GetWeatherData extends React.Component {
+class GetTempData extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleLatLonChange = this.handleLatLonChange.bind(this);
+        this.handleTempChange = this.handleTempChange.bind(this);
     }
 
     componentDidMount() {
@@ -19,23 +19,21 @@ class GetWeatherData extends React.Component {
             .then((value) => {
                 let lat = value.coords.latitude;
                 let lon = value.coords.longitude;
-                this.handleLatLonChange(lat, lon);
 
-                // Get current city name based off lat and lon.
-                fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
+                // Get weather based off lat and lon.
+                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
-                        this.props.onCityChange(json[0].name);
+                        this.handleTempChange(json.main.temp);
+                        this.props.onDataLoaded();
                     })
                     .catch(err => console.error(err));
-
-                this.props.onDataLoaded();
             })
             .catch(err => console.error(err));
     }
 
-    handleLatLonChange(lat, lon) {
-        this.props.onLatLonChange(lat, lon);
+    handleTempChange(temp) {
+        this.props.onTempChange(temp);
     }
 
     render() {
@@ -46,12 +44,11 @@ class GetWeatherData extends React.Component {
         } else {
             return(
                 <div>
-                    <p>Current Coordinates: {this.props.lat}, {this.props.lon}</p>
-                    <p>Current City Name: {this.props.cityname}</p>
+                    <p>Current Temperature: {this.props.temp}</p>
                 </div>
             );
         }
     }
 }
 
-export default GetWeatherData;
+export default GetTempData;
