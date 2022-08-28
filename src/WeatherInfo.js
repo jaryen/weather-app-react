@@ -3,9 +3,6 @@ import GetWeatherData from './GetWeatherData';
 import SearchCity from './SearchCity';
 import GetTempData from './GetTempData';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-
 
 class WeatherInfo extends React.Component {
     constructor(props) {
@@ -61,7 +58,7 @@ class WeatherInfo extends React.Component {
             <div id="weatherInfoDiv">
                 <Box 
                     sx={{
-                        mb: 2,
+                        mb: 3,
                         p: 5,
                         borderRadius: 2, 
                         bgcolor: 'rgba(167, 192, 205, 0.5)',
@@ -86,21 +83,14 @@ class WeatherInfo extends React.Component {
                         onTempChange={this.handleTempChange} 
                     />
                 </Box>
-                <Card
-                    sx={{
-                        width: 1/5
-                    }}>
-                    <CardContent>
-                        <GetTempData 
-                            lat={this.state.lat}
-                            lon={this.state.lon}
-                            temp={this.state.temp}
-                            dataIsLoaded={this.state.dataIsLoaded}
-                            onDataLoaded={this.handleDataLoadedChange}
-                            onTempChange={this.handleTempChange} 
-                        />
-                    </CardContent>
-                </Card>
+                <GetTempData 
+                    lat={this.state.lat}
+                    lon={this.state.lon}
+                    temp={this.state.temp}
+                    dataIsLoaded={this.state.dataIsLoaded}
+                    onDataLoaded={this.handleDataLoadedChange}
+                    onTempChange={this.handleTempChange} 
+                />
             </div>
         );
     }   

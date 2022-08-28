@@ -8,7 +8,8 @@ import { grey } from '@mui/material/colors';
 const theme = createTheme({
   palette: {
       primary: {
-          main: grey[800],
+        main: grey[900],
+        secondary: grey[500]
       },
   },
 });
