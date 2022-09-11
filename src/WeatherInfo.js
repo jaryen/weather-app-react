@@ -14,7 +14,8 @@ class WeatherInfo extends React.Component {
             citysearch: '',
             currcity: null,
             temp: null,
-            dataIsLoaded: false,
+            tempCards: [],
+            dataIsLoaded: false
         };
 
         this.handleCitySearchChange = this.handleCitySearchChange.bind(this);
@@ -22,6 +23,7 @@ class WeatherInfo extends React.Component {
         this.handleLatLonChange = this.handleLatLonChange.bind(this);
         this.handleTempChange = this.handleTempChange.bind(this);
         this.handleDataLoadedChange = this.handleDataLoadedChange.bind(this);
+        this.handleTempCardsChange = this.handleTempCardsChange.bind(this);
     }
 
     // Saves the current city name typed in SearchCity
@@ -36,6 +38,8 @@ class WeatherInfo extends React.Component {
         this.setState({currcity: cityname});
     }
 
+    // Handles setting the current latitude and
+    // longitude
     handleLatLonChange(lat, lon) {
         this.setState({
             lat: lat,
@@ -43,8 +47,14 @@ class WeatherInfo extends React.Component {
         });
     }
 
+    // Handles setting the temperature in
+    // the city searched
     handleTempChange(temp) {
         this.setState({temp: temp});
+    }
+
+    handleTempCardsChange(tempCards) {
+        this.setState({tempCards: tempCards});
     }
 
     // Handles when weather data is loaded
@@ -70,6 +80,7 @@ class WeatherInfo extends React.Component {
                         onCitySubmit={this.handleCityChange}
                         onLatLonChange={this.handleLatLonChange}
                         onTempChange={this.handleTempChange} 
+                        onTempCardsChange={this.handleTempCardsChange}
                     />
                     <GetWeatherData 
                         lat={this.state.lat}
@@ -81,12 +92,14 @@ class WeatherInfo extends React.Component {
                         onCityChange={this.handleCityChange}
                         onLatLonChange={this.handleLatLonChange}
                         onTempChange={this.handleTempChange} 
+                        onTempCardsChange={this.handleTempCardsChange}
                     />
                 </Box>
                 <GetTempData 
                     lat={this.state.lat}
                     lon={this.state.lon}
                     temp={this.state.temp}
+                    tempCards={this.state.tempCards}
                     dataIsLoaded={this.state.dataIsLoaded}
                     onDataLoaded={this.handleDataLoadedChange}
                     onTempChange={this.handleTempChange} 

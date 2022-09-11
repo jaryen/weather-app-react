@@ -24,8 +24,6 @@ const cnt = 5;
 class GetTempData extends React.Component {
     constructor(props) {
         super(props);
-
-        this.handleTempChange = this.handleTempChange.bind(this);
     }
 
     componentDidMount() {
@@ -42,10 +40,11 @@ class GetTempData extends React.Component {
                 fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
-                        this.handleTempChange(json.list[3].main.temp);
                         this.props.onDataLoaded();
 
                         tempCards = [];
+
+                        // Fill array with temperature data cards
                         for (let i = 0; i < cnt; i++) {
                             let currTempCard = Object.create(tempCard);
                             let tempData = json.list[i].main;
@@ -56,15 +55,11 @@ class GetTempData extends React.Component {
                             tempCards.push(currTempCard);
                         }
 
-                        console.log(tempCards);
+                        // console.log(tempCards);
                     })
                     .catch(err => console.error(err));
             })
             .catch(err => console.error(err));
-    }
-
-    handleTempChange(temp) {
-        this.props.onTempChange(temp);
     }
 
     render() {
@@ -74,15 +69,14 @@ class GetTempData extends React.Component {
             )
         } else {
             return(
-                // <div>
-                //     <p style={tempTextStyle}>Current Temperature: {this.props.temp}</p>
-                // </div>
-                <Grid direction="rows" container columns={5} spacing={5}>
-                    {tempCards.map(function(tempCard) {
+                <Grid direction='row' container columns={cnt}>
+                    {/* Take each object in tempCards arr and create
+                    a new Card component out of them.
+                    Return an array of card components */}
+                    {this.props.tempCards.map(function(tempCard) {
                         return(
                             <Card
                                 sx={{
-                                    width: 1/5,
                                     bgcolor: 'primary.main',
                                     boxShadow: 3
                                 }} 
