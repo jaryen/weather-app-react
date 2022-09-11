@@ -5,28 +5,28 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 // Open Weather API Key
-const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+// const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 const tempTextStyle = {
     color: "white",
 }
 
-const tempCard = {
+/* const tempCard = {
     day: null,
     temp: null,
     high_temp: null,
     low_temp: null,
 }
-var tempCards = [];
+var tempCards = []; */
 
 const cnt = 5;
 
 class GetTempData extends React.Component {
-    constructor(props) {
+    /* constructor(props) {
         super(props);
-    }
+    } */
 
-    componentDidMount() {
+    /* componentDidMount() {
         let locPromise = new Promise(function(resolve, reject) {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
@@ -60,7 +60,7 @@ class GetTempData extends React.Component {
                     .catch(err => console.error(err));
             })
             .catch(err => console.error(err));
-    }
+    } */
 
     render() {
         if (!this.props.dataIsLoaded) {
@@ -69,27 +69,29 @@ class GetTempData extends React.Component {
             )
         } else {
             return(
-                <Grid direction='row' container columns={cnt}>
+                <Grid container justifyContent="center" columns={cnt} spacing={2}>
                     {/* Take each object in tempCards arr and create
                     a new Card component out of them.
                     Return an array of card components */}
                     {this.props.tempCards.map(function(tempCard) {
                         return(
-                            <Card
-                                sx={{
-                                    bgcolor: 'primary.main',
-                                    boxShadow: 3
-                                }} 
-                            >
-                                <CardContent>
-                                    <Typography style={tempTextStyle}>
-                                        Date: {tempCard.day} <br/>
-                                        Temperature: {tempCard.temp} <br/>
-                                        High: {tempCard.high_temp} <br/>
-                                        Low: {tempCard.low_temp} 
-                                    </Typography>
-                                </CardContent>
-                            </Card>
+                            <Grid item>
+                                <Card
+                                    sx={{
+                                        bgcolor: 'primary.main',
+                                        boxShadow: 3
+                                    }} 
+                                >
+                                    <CardContent>
+                                        <Typography style={tempTextStyle}>
+                                            Date: {tempCard.day} <br/>
+                                            Temperature: {tempCard.temp} <br/>
+                                            High: {tempCard.high_temp} <br/>
+                                            Low: {tempCard.low_temp} 
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
                         );
                     })}
                 </Grid>

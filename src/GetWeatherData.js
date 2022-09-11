@@ -43,8 +43,6 @@ class GetWeatherData extends React.Component {
                 fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
-                        console.log(json);
-
                         // Empty temperature cards array
                         tempCards = [];
 

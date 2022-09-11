@@ -4,6 +4,16 @@ import SearchCity from './SearchCity';
 import GetTempData from './GetTempData';
 import Box from '@mui/material/Box';
 
+// Data for holding forecast info.
+/* const cnt = 5;
+const tempCard = {
+    day: null,
+    temp: null,
+    high_temp: null,
+    low_temp: null,
+}
+var tempCards = []; */
+
 class WeatherInfo extends React.Component {
     constructor(props) {
         super(props);
