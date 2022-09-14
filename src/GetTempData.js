@@ -2,7 +2,13 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import UilSun from '@iconscout/react-unicons/icons/uil-sun';
+import UilRain from '@iconscout/react-unicons/icons/uil-raindrops';
+import UilCloudy from '@iconscout/react-unicons/icons/uil-clouds';
+import UilWarm from '@iconscout/react-unicons/icons/uil-cloud-sun';
+
 
 // Open Weather API Key
 // const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
@@ -69,7 +75,7 @@ class GetTempData extends React.Component {
             )
         } else {
             return(
-                <Grid container justifyContent="center" columns={cnt} spacing={2}>
+                <Grid container justifyContent="space-evenly" columns={cnt} spacing={2}>
                     {/* Take each object in tempCards arr and create
                     a new Card component out of them.
                     Return an array of card components */}
@@ -79,9 +85,10 @@ class GetTempData extends React.Component {
                                 <Card
                                     sx={{
                                         bgcolor: 'primary.main',
-                                        boxShadow: 3
+                                        boxShadow: 3,
                                     }} 
                                 >
+                                    <UilRain size="100" color="#61DAFB" />
                                     <CardContent>
                                         <Typography style={tempTextStyle}>
                                             Date: {tempCard.day} <br/>

@@ -77,7 +77,7 @@ class GetWeatherData extends React.Component {
         } else {
             return(
                 <div>
-                    <p>Current Coordinates: {this.props.lat}, {this.props.lon}</p>
+                    <p>Coordinates: {this.props.lat}, {this.props.lon}</p>
                     <p>Current City Name: {this.props.cityname}</p>
                 </div>
             );
