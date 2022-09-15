@@ -9,7 +9,7 @@ import UilWarm from '@iconscout/react-unicons/icons/uil-cloud-sun';
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 // Data for holding forecast info.
-const cnt = 5;
+const cnt = 40;
 const tempCard = {
     day: null,
     temp: null,
@@ -18,6 +18,7 @@ const tempCard = {
     icon: null,
 }
 var tempCards = [];
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 class GetWeatherData extends React.Component {
     constructor(props) {
@@ -49,6 +50,8 @@ class GetWeatherData extends React.Component {
                 fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
+                        console.log(json);
+
                         // Empty temperature cards array
                         tempCards = [];
 
@@ -56,24 +59,28 @@ class GetWeatherData extends React.Component {
                         for (let i = 0; i < cnt; i++) {
                             let currTempCard = Object.create(tempCard);
                             let tempData = json.list[i].main;
-                            currTempCard.day = json.list[i].dt_txt;
+                            currTempCard.day = days[new Date(json.list[i].dt * 1000).getDay()];
                             currTempCard.temp = tempData.temp;
                             currTempCard.high_temp = tempData.temp_max;
                             currTempCard.low_temp = tempData.temp_min;
 
-                            if (tempData.temp < 30) {
-                                currTempCard.icon = <UilSnowflake size="100" color="#61DAFB" />
-                            } else if (tempData.temp < 50) {
-                                currTempCard.icon = <UilCloudy size="100" color="#61DAFB" />
-                            } else if (tempData.temp < 70) {
-                                currTempCard.icon = <UilWarm size="100" color="#61DAFB" />
-                            } else if (tempData.temp < 90) {
-                                currTempCard.icon = <UilSun size="100" color="#61DAFB" />
+                            if (json.list[i].weather[0].main == "Rain") {
+                                currTempCard.icon = <UilRain size="100" color="#61DAFB" />
                             } else {
-                                currTempCard.icon = <UilSun size="100" color="#61DAFB" />
+                                if (tempData.temp < 30) {
+                                    currTempCard.icon = <UilSnowflake size="100" color="#61DAFB" />
+                                } else if (tempData.temp < 50) {
+                                    currTempCard.icon = <UilCloudy size="100" color="#61DAFB" />
+                                } else if (tempData.temp < 70) {
+                                    currTempCard.icon = <UilWarm size="100" color="#61DAFB" />
+                                } else if (tempData.temp < 90) {
+                                    currTempCard.icon = <UilSun size="100" color="#61DAFB" />
+                                } else {
+                                    currTempCard.icon = <UilSun size="100" color="#61DAFB" />
+                                }
                             }
 
-                            tempCards.push(currTempCard);
+                            tempCards.push(currTempCard); 
                         }
 
                         this.props.onTempCardsChange(tempCards);

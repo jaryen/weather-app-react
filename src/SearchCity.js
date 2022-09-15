@@ -2,12 +2,17 @@ import React from "react";
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
+import UilSnowflake from '@iconscout/react-unicons/icons/uil-snowflake';
+import UilSun from '@iconscout/react-unicons/icons/uil-sun';
+import UilRain from '@iconscout/react-unicons/icons/uil-raindrops';
+import UilCloudy from '@iconscout/react-unicons/icons/uil-clouds';
+import UilWarm from '@iconscout/react-unicons/icons/uil-cloud-sun';
 
 // Open Weather API Key
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 // Data for holding forecast info.
-const cnt = 5;
+const cnt = 40;
 const tempCard = {
     day: null,
     temp: null,
@@ -16,6 +21,7 @@ const tempCard = {
     icon: null,
 }
 var tempCards = [];
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 class SearchCity extends React.Component {
     constructor(props) {
@@ -44,10 +50,27 @@ class SearchCity extends React.Component {
         for (let i = 0; i < cnt; i++) {
             let currTempCard = Object.create(tempCard);
             let tempData = forecastData.list[i].main;
-            currTempCard.day = forecastData.list[i].dt_txt;
+            currTempCard.day = days[new Date(forecastData.list[i].dt * 1000).getDay()];            ;
             currTempCard.temp = tempData.temp;
             currTempCard.high_temp = tempData.temp_max;
             currTempCard.low_temp = tempData.temp_min;
+
+            if (forecastData.list[i].weather[0].main == "Rain") {
+                currTempCard.icon = <UilRain size="100" color="#61DAFB" />
+            } else {
+                if (tempData.temp < 30) {
+                    currTempCard.icon = <UilSnowflake size="100" color="#61DAFB" />
+                } else if (tempData.temp < 50) {
+                    currTempCard.icon = <UilCloudy size="100" color="#61DAFB" />
+                } else if (tempData.temp < 70) {
+                    currTempCard.icon = <UilWarm size="100" color="#61DAFB" />
+                } else if (tempData.temp < 90) {
+                    currTempCard.icon = <UilSun size="100" color="#61DAFB" />
+                } else {
+                    currTempCard.icon = <UilSun size="100" color="#61DAFB" />
+                }
+            }
+
             tempCards.push(currTempCard);
         }
 

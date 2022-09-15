@@ -2,13 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import UilSun from '@iconscout/react-unicons/icons/uil-sun';
-import UilRain from '@iconscout/react-unicons/icons/uil-raindrops';
-import UilCloudy from '@iconscout/react-unicons/icons/uil-clouds';
-import UilWarm from '@iconscout/react-unicons/icons/uil-cloud-sun';
-
 
 // Open Weather API Key
 // const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
@@ -88,10 +82,10 @@ class GetTempData extends React.Component {
                                         boxShadow: 3,
                                     }} 
                                 >
-                                    {tempCard.icon}
                                     <CardContent>
                                         <Typography style={tempTextStyle}>
-                                            Date: {tempCard.day} <br/>
+                                            {tempCard.day} <br/>
+                                            {tempCard.icon} <br/>
                                             Temperature: {tempCard.temp} <br/>
                                             High: {tempCard.high_temp} <br/>
                                             Low: {tempCard.low_temp} 
