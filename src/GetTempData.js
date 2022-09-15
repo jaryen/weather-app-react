@@ -88,7 +88,7 @@ class GetTempData extends React.Component {
                                         boxShadow: 3,
                                     }} 
                                 >
-                                    <UilRain size="100" color="#61DAFB" />
+                                    {tempCard.icon}
                                     <CardContent>
                                         <Typography style={tempTextStyle}>
                                             Date: {tempCard.day} <br/>

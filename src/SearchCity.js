@@ -13,6 +13,7 @@ const tempCard = {
     temp: null,
     high_temp: null,
     low_temp: null,
+    icon: null,
 }
 var tempCards = [];
 
