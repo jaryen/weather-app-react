@@ -50,7 +50,7 @@ class GetWeatherData extends React.Component {
                 fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${API_KEY}&units=imperial`)
                     .then(res => res.json())
                     .then(json => {
-                        console.log(json);
+                        // console.log(json);
 
                         // Empty temperature cards array
                         tempCards = [];
@@ -64,7 +64,7 @@ class GetWeatherData extends React.Component {
                             currTempCard.high_temp = tempData.temp_max;
                             currTempCard.low_temp = tempData.temp_min;
 
-                            if (json.list[i].weather[0].main == "Rain") {
+                            if (json.list[i].weather[0].main === "Rain") {
                                 currTempCard.icon = <UilRain size="100" color="#61DAFB" />
                             } else {
                                 if (tempData.temp < 30) {
