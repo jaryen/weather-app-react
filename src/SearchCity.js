@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import UilSnowflake from '@iconscout/react-unicons/icons/uil-snowflake';
 import UilSun from '@iconscout/react-unicons/icons/uil-sun';
 import UilRain from '@iconscout/react-unicons/icons/uil-raindrops';
@@ -26,13 +28,13 @@ const tempCard = {
 var tempCards = [];
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// Data for holding city info.
 const address = {
     city_name: null,
     state_code: null,
     country_code: null,
     address: null
 };
-// const [places, updatePlaces] = useState('');
 
 class SearchCity extends React.Component {
     constructor(props) {
@@ -42,6 +44,7 @@ class SearchCity extends React.Component {
             places: []
         }
 
+        this.addressAutocomplete = this.addressAutocomplete.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -72,8 +75,8 @@ class SearchCity extends React.Component {
         }
     }
 
-    async addressAutocomplete(searchInput) {
-        fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${searchInput}&type=city&format=json&apiKey=${GEOAPIFY_AUTOCOMPLETE_API_KEY}`)
+    async addressAutocomplete(event, value) {
+        fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${value}&type=city&format=json&apiKey=${GEOAPIFY_AUTOCOMPLETE_API_KEY}`)
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -82,9 +85,9 @@ class SearchCity extends React.Component {
                 }
             })
             .then((data) => {
-                console.log(data);
                 let results = data.results;
                 console.log(results);
+
                 let addresses = [];
                 for (let i = 0; i < results.length; i++) {
                     let currAddress = Object.create(address);
@@ -94,6 +97,7 @@ class SearchCity extends React.Component {
                     currAddress.address = results[i].formatted;
                     addresses.push(currAddress);
                 }
+
                 this.setState({places: addresses});
                 console.log(this.state.places);
             })
@@ -108,7 +112,6 @@ class SearchCity extends React.Component {
 
         let weatherData = await this.callWeatherAPI(city_name); // This should return a response.json()
         let forecastData = await this.callForecastAPI(weatherData);
-        console.log(forecastData);
 
         // Empty temperature cards array
         tempCards = [];
@@ -152,7 +155,7 @@ class SearchCity extends React.Component {
 
     handleChange(event) {
         this.props.onCitySearchChange(event.target.value);
-        this.addressAutocomplete(event.target.value);
+        this.addressAutocomplete(event, event.target.value);
     }
 
     handleSubmit(event) {
@@ -163,12 +166,19 @@ class SearchCity extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                <Autocomplete 
+                    id="citysearch-autocomplete"
+                    options={this.state.places.map((address) => address.address)}
+                    freeSolo
+                    renderInput={(params) => <TextField {...params} label="City Name" />}
+                    onInputChange={this.addressAutocomplete}
+                    fullWidth={true}
+                />
+                <br/>
                 <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" />
                 <br/>
                 <br/>
                 <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button>
-                <br/>
-                <div class="autocomplete-container" id="autocomplete-container" ref={this.myRef}></div>
             </form>
         );
     }
