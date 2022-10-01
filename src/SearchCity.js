@@ -1,5 +1,5 @@
 import React from "react";
-import Input from '@mui/material/Input';
+// import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -41,7 +41,8 @@ class SearchCity extends React.Component {
         super(props);
 
         this.state = {
-            places: []
+            places: [],
+            searchTerm: {}
         }
 
         this.addressAutocomplete = this.addressAutocomplete.bind(this);
@@ -163,22 +164,30 @@ class SearchCity extends React.Component {
         event.preventDefault();
     }
 
+    handleAutoSubmit(event, value) {
+        // Set current state search term to the selected
+        // value.
+        this.setState({searchTerm: value})
+        this.searchCity(this.state.searchTerm);
+    }
+
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <Autocomplete 
                     id="citysearch-autocomplete"
-                    options={this.state.places.map((address) => address.address)}
-                    freeSolo
+                    options={this.state.places}
+                    getOptionLabel={(option) => option.address}
                     renderInput={(params) => <TextField {...params} label="City Name" />}
+                    freeSolo
                     onInputChange={this.addressAutocomplete}
-                    fullWidth={true}
+                    /* onChange={this.handleAutoSubmit}
+                    value={this.state.searchTerm} */
                 />
                 <br/>
-                <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" />
+                {/* <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" /> */}
                 <br/>
-                <br/>
-                <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button>
+                {/* <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button> */}
             </form>
         );
     }
