@@ -1,7 +1,7 @@
 import React from "react";
 // import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
-import SearchIcon from '@mui/icons-material/Search';
+// import Button from '@mui/material/Button';
+// import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import UilSnowflake from '@iconscout/react-unicons/icons/uil-snowflake';
@@ -42,16 +42,17 @@ class SearchCity extends React.Component {
 
         this.state = {
             places: [],
-            searchTerm: {}
+            searchTerm: null
         }
 
         this.addressAutocomplete = this.addressAutocomplete.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAutoSubmit = this.handleAutoSubmit.bind(this);
     }
 
-    async callWeatherAPI(city_name) {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_KEY}&units=imperial`)
+    async callWeatherAPI(city_name, state_code, country_code) {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city_name},${state_code},${country_code}&appid=${API_KEY}&units=imperial`)
             .catch((err) => {
                 console.error("Weather API call has error: ", err);
             });
@@ -76,7 +77,7 @@ class SearchCity extends React.Component {
         }
     }
 
-    async addressAutocomplete(event, value) {
+    async addressAutocomplete(event, value) {      
         fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${value}&type=city&format=json&apiKey=${GEOAPIFY_AUTOCOMPLETE_API_KEY}`)
             .then((res) => {
                 if (res.ok) {
@@ -108,10 +109,10 @@ class SearchCity extends React.Component {
     }
     
     // Search City API Call
-    async searchCity(city_name) {
+    async searchCity(city_name, state_code, country_code) {
         console.log("City Searched: " + city_name);
 
-        let weatherData = await this.callWeatherAPI(city_name); // This should return a response.json()
+        let weatherData = await this.callWeatherAPI(city_name, state_code, country_code);
         let forecastData = await this.callForecastAPI(weatherData);
 
         // Empty temperature cards array
@@ -167,28 +168,26 @@ class SearchCity extends React.Component {
     handleAutoSubmit(event, value) {
         // Set current state search term to the selected
         // value.
-        this.setState({searchTerm: value})
-        this.searchCity(this.state.searchTerm);
+        this.setState({searchTerm: value}, function() {this.searchCity(this.state.searchTerm.city_name, this.state.searchTerm.state_code, this.state.searchTerm.country_code)});
     }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <Autocomplete 
-                    id="citysearch-autocomplete"
-                    options={this.state.places}
-                    getOptionLabel={(option) => option.address}
-                    renderInput={(params) => <TextField {...params} label="City Name" />}
-                    freeSolo
-                    onInputChange={this.addressAutocomplete}
-                    /* onChange={this.handleAutoSubmit}
-                    value={this.state.searchTerm} */
-                />
-                <br/>
-                {/* <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" /> */}
-                <br/>
-                {/* <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button> */}
-            </form>
+            <>
+                {/* <form onSubmit={this.handleSubmit}> */}
+                    <Autocomplete 
+                        id="citysearch-autocomplete"
+                        options={this.state.places}
+                        getOptionLabel={(option) => option.address}
+                        renderInput={(params) => <TextField {...params} label="City Name" />}
+                        freeSolo
+                        onInputChange={this.addressAutocomplete}
+                        onChange={this.handleAutoSubmit}
+                    />
+                    {/* <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" /> */}
+                    {/* <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button> */}
+                {/* </form> */}
+            </>
         );
     }
 }
