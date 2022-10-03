@@ -85,6 +85,7 @@ class GetTempData extends React.Component {
                                     <CardContent>
                                         <Typography style={tempTextStyle}>
                                             {tempCard.day} <br/>
+                                            Time: {tempCard.time} <br/>
                                             {tempCard.icon} <br/>
                                             Temperature: {tempCard.temp} <br/>
                                             High: {tempCard.high_temp} <br/>

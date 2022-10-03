@@ -1,7 +1,4 @@
 import React from "react";
-// import Input from '@mui/material/Input';
-// import Button from '@mui/material/Button';
-// import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import UilSnowflake from '@iconscout/react-unicons/icons/uil-snowflake';
@@ -20,6 +17,7 @@ const GEOAPIFY_AUTOCOMPLETE_API_KEY = process.env.REACT_APP_GEOAPIFY_API_KEY;
 const cnt = 40;
 const tempCard = {
     day: null,
+    time: null,
     temp: null,
     high_temp: null,
     low_temp: null,
@@ -123,6 +121,7 @@ class SearchCity extends React.Component {
             let currTempCard = Object.create(tempCard);
             let tempData = forecastData.list[i].main;
             currTempCard.day = days[new Date(forecastData.list[i].dt * 1000).getDay()];
+            currTempCard.time = forecastData.list[i].di_text;
             currTempCard.temp = tempData.temp;
             currTempCard.high_temp = tempData.temp_max;
             currTempCard.low_temp = tempData.temp_min;
@@ -173,21 +172,17 @@ class SearchCity extends React.Component {
 
     render() {
         return (
-            <>
-                {/* <form onSubmit={this.handleSubmit}> */}
-                    <Autocomplete 
-                        id="citysearch-autocomplete"
-                        options={this.state.places}
-                        getOptionLabel={(option) => option.address}
-                        renderInput={(params) => <TextField {...params} label="City Name" />}
-                        freeSolo
-                        onInputChange={this.addressAutocomplete}
-                        onChange={this.handleAutoSubmit}
-                    />
-                    {/* <Input type="text" value={this.props.citysearch} onChange={this.handleChange} placeholder="City Name" fullWidth={true} size="medium" /> */}
-                    {/* <Button type="submit" variant='contained' endIcon={<SearchIcon />}>Search</Button> */}
-                {/* </form> */}
-            </>
+            <Autocomplete 
+                id="citysearch-autocomplete"
+                options={this.state.places}
+                getOptionLabel={(option) => option.address}
+                renderInput={(params) => <TextField {...params} label="City Name" />}
+                freeSolo
+                disableClearable
+                onInputChange={this.addressAutocomplete}
+                onChange={this.handleAutoSubmit}
+                value={this.state.searchTerm || null}
+            />
         );
     }
 }

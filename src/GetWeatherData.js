@@ -12,6 +12,7 @@ const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 const cnt = 40;
 const tempCard = {
     day: null,
+    time: null,
     temp: null,
     high_temp: null,
     low_temp: null,
@@ -60,6 +61,7 @@ class GetWeatherData extends React.Component {
                             let currTempCard = Object.create(tempCard);
                             let tempData = json.list[i].main;
                             currTempCard.day = days[new Date(json.list[i].dt * 1000).getDay()];
+                            currTempCard.time = json.list[i].dt_txt;
                             currTempCard.temp = tempData.temp;
                             currTempCard.high_temp = tempData.temp_max;
                             currTempCard.low_temp = tempData.temp_min;
